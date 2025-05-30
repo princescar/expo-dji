@@ -1,10 +1,21 @@
-import { useEvent } from 'expo';
 import ExpoDji, { ExpoDjiView } from 'expo-dji';
+import { useState } from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
-  const onChangePayload = useEvent(ExpoDji, 'onChange');
+  const [apiKey, setApiKey] = useState('');
+  const [appRegistered, setAppRegistered] = useState(false);
+
+  const init = async () => {
+    try {
+      await ExpoDji.registerApp();
+      setAppRegistered(true);
+    } catch (e) {
+      setAppRegistered(false);
+      console.error(e);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,18 +25,20 @@ export default function App() {
           <Text>{ExpoDji.PI}</Text>
         </Group>
         <Group name="Functions">
-          <Text>{ExpoDji.hello()}</Text>
-        </Group>
-        <Group name="Async functions">
+          <Text>{apiKey}</Text>
           <Button
-            title="Set value"
-            onPress={async () => {
-              await ExpoDji.setValueAsync('Hello from JS!');
+            title="Get api key"
+            onPress={() => {
+              setApiKey(ExpoDji.getApiKey() ?? "")
             }}
           />
         </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
+        <Group name="Async Functions">
+          <Text>{appRegistered ? "registered" : "unregistered"}</Text>
+          <Button
+            title="Register app"
+            onPress={init}
+          />
         </Group>
         <Group name="Views">
           <ExpoDjiView
