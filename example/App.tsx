@@ -1,10 +1,12 @@
 import { useEvent } from 'expo';
 import ExpoDji, { ExpoDjiView } from 'expo-dji';
+import { useState } from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const onChangePayload = useEvent(ExpoDji, 'onChange');
+  const [text, setText] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,7 +16,13 @@ export default function App() {
           <Text>{ExpoDji.PI}</Text>
         </Group>
         <Group name="Functions">
-          <Text>{ExpoDji.hello()}</Text>
+          <Text>{text}</Text>
+          <Button
+            title="Get value"
+            onPress={() => {
+              setText(ExpoDji.hello())
+            }}
+          />
         </Group>
         <Group name="Async functions">
           <Button

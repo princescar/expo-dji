@@ -1,6 +1,10 @@
 package expo.modules.dji
 
 import android.content.pm.PackageManager
+import dji.v5.common.error.IDJIError
+import dji.v5.common.register.DJISDKInitEvent
+import dji.v5.manager.SDKManager
+import dji.v5.manager.interfaces.SDKManagerCallback
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import java.net.URL
@@ -14,6 +18,12 @@ class ExpoDjiModule : Module() {
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('ExpoDji')` in JavaScript.
     Name("ExpoDji")
+
+    OnCreate {
+      val application = appContext.activityProvider?.currentActivity?.application
+      com.cySdkyc.clx.Helper.install(application)
+      println("[DJI] com.cySdkyc.clx.Helper.install $application")
+    }
 
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants(
@@ -29,6 +39,42 @@ class ExpoDjiModule : Module() {
       val packageManager = appContext.reactContext?.packageManager
       val applicationInfo = packageManager?.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
       val apiKey = applicationInfo?.metaData?.getString("com.dji.sdk.API_KEY")
+
+      val activity = appContext.activityProvider?.currentActivity
+      println("[DJI] start init $activity")
+      SDKManager.getInstance().init(activity, object:SDKManagerCallback {
+        override fun onInitProcess(event: DJISDKInitEvent?, totalProcess: Int) {
+          println("[DJI] onInitProcess $event $totalProcess")
+          if (event == DJISDKInitEvent.INITIALIZE_COMPLETE) {
+            SDKManager.getInstance().registerApp()
+          }
+        }
+
+        override fun onRegisterSuccess() {
+          println("[DJI] onRegisterSuccess")
+        }
+
+        override fun onRegisterFailure(error: IDJIError?) {
+          println("[DJI] onRegisterFailure $error")
+        }
+
+        override fun onProductDisconnect(productId: Int) {
+          TODO("Not yet implemented")
+        }
+
+        override fun onProductConnect(productId: Int) {
+          TODO("Not yet implemented")
+        }
+
+        override fun onProductChanged(productId: Int) {
+          TODO("Not yet implemented")
+        }
+
+        override fun onDatabaseDownloadProgress(current: Long, total: Long) {
+          TODO("Not yet implemented")
+        }
+      })
+
       apiKey.toString()
     }
 
