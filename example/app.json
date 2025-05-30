@@ -7,14 +7,11 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "platforms": ["android"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "expo.modules.dji.example"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,9 +20,6 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "expo.modules.dji.example"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
