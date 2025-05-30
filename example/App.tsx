@@ -1,6 +1,7 @@
 import { useEvent } from 'expo';
 import ExpoDji, { ExpoDjiView } from 'expo-dji';
-import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Button, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const onChangePayload = useEvent(ExpoDji, 'onChange');
@@ -8,7 +9,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
-        <Text style={styles.header}>Module API Example</Text>
+        <Text style={styles.header}>Expo DJI Example</Text>
         <Group name="Constants">
           <Text>{ExpoDji.PI}</Text>
         </Group>

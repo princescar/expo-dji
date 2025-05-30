@@ -1,5 +1,6 @@
 package expo.modules.dji
 
+import android.content.pm.PackageManager
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import java.net.URL
@@ -24,7 +25,11 @@ class ExpoDjiModule : Module() {
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
-      "Hello world! 👋"
+      val packageName = appContext.reactContext?.packageName.toString()
+      val packageManager = appContext.reactContext?.packageManager
+      val applicationInfo = packageManager?.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+      val apiKey = applicationInfo?.metaData?.getString("com.dji.sdk.API_KEY")
+      apiKey.toString()
     }
 
     // Defines a JavaScript function that always returns a Promise and whose native code

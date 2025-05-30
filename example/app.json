@@ -20,6 +20,9 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "expo.modules.dji.example"
-    }
+    },
+    "plugins": [
+      ["../app.plugin.js", { "apiKey": "DJI-MSDK-API-KEY" }]
+    ]
   }
 }

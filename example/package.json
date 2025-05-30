@@ -4,12 +4,14 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "clean:android": "expo prebuild --clean --platform android"
   },
   "dependencies": {
     "expo": "~53.0.9",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-safe-area-context": "^5.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
